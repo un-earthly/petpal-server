@@ -1,3 +1,6 @@
+import IBooking from "./booking.interface";
+import IPet from "./pet.interface";
+import IReview from "./review.interface";
 import IUser from "./user.interface";
 
 interface IService {
@@ -9,8 +12,9 @@ interface IService {
     duration: number;
     providerId: number;
     provider: IUser;
-    createdAt: Date;
-    updatedAt: Date;
+    pet: IPet | null;
+    booking: IBooking[];
+    review: IReview[];
 }
 
 

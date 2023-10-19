@@ -3,7 +3,7 @@ import { ITokenPayload } from "../interfaces/token.interface";
 import jwt from 'jsonwebtoken';
 import { sendResponse } from "../utils/sendResponse";
 
-const secretKey = 'YourSecretKey';
+const secretKey = process.env.JWT_SECRET as string;
 
 
 
@@ -30,8 +30,4 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
 
 
 }
-
-module.exports = {
-    generateToken,
-    verifyToken,
-};
+export {verifyToken, generateToken}

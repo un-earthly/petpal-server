@@ -5,9 +5,10 @@ interface IArticle {
     title: string;
     content: string;
     authorId: number;
-    author: IUser;
     createdAt: Date;
     updatedAt: Date;
+    user: IUser | null;
+    userId: number | null;
 }
 
 export default IArticle;

@@ -1,3 +1,4 @@
+import IPet from "./pet.interface";
 import IService from "./service.inteface";
 import IUser from "./user.interface";
 
@@ -6,10 +7,12 @@ interface IReview {
     rating: number;
     comments: string;
     userId: number;
-    user: IUser;
     serviceId: number;
-    service: IService;
     createdAt: Date;
     updatedAt: Date;
+    petId: number | null;
+    user: IUser;
+    pet: IPet | null;
+    service: IService;
 }
 export default IReview

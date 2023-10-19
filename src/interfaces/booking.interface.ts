@@ -3,15 +3,15 @@ import IService from "./service.inteface";
 import IUser from "./user.interface";
 
 export enum IPaymentEnum {
-    'unpaid',
-    'paid',
-    'refunded'
+    UNPAID = 'UNPAID',
+    PAID = 'PAID',
+    REFUNDED = 'REFUNDED',
 }
 export enum IBookingStatusEnum {
-    'pending',
-    'confirmed',
-    'completed',
-    'canceled'
+    PENDING = 'PENDING',
+    CONFIRMED = 'CONFIRMED',
+    COMPLETED = 'COMPLETED',
+    CANCELED = 'CANCELED',
 }
 interface IBooking {
     id: number;
@@ -19,16 +19,14 @@ interface IBooking {
     serviceTime: string;
     status: IBookingStatusEnum;
     petId: number;
-    pet: IPet;
-    providerId: number;
-    provider: IUser;
     userId: number;
-    user: IUser;
     serviceId: number;
-    service: IService;
     paymentAmount: number;
     paymentStatus: IPaymentEnum;
-    paymentDate: Date | null;
+    paymentDate: Date;
+    user: IUser;
+    pet: IPet;
+    service:IService;
 }
 
 export default IBooking;

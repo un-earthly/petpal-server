@@ -1,3 +1,4 @@
+import IBooking from "./booking.interface";
 import IReview from "./review.interface";
 import IService from "./service.inteface";
 import IUser from "./user.interface";
@@ -8,7 +9,6 @@ interface IPet {
     type: string;
     age: number;
     description: string | null;
-    servicesOffered:IService[];
     ownerId: number;
     owner: IUser;
     breed: string | null;
@@ -17,8 +17,8 @@ interface IPet {
     vaccinationStatus: string | null;
     medicalHistory: string | null;
     imageUrls: string[];
-    servicesRequested: IService[];
+    availableServices: IService[];
     reviews: IReview[];
-    availableServices:IService[];
+    booking: IBooking[];
 }
 export default IPet
