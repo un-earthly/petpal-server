@@ -1,9 +1,10 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") 
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
@@ -26,31 +27,32 @@ enum PaymentStatus {
   REFUNDED
 }
 
-
 model User {
-  id                Int       @id @default(autoincrement())
-  email             String    @unique
-  password          String
-  firstName         String
-  lastName          String
-  role              Role
-  profileImage      String?
-  phoneNumber       String?
-  address           String?
-  description       String?
-  pets              Pet[]
+  id                   Int       @id @default(autoincrement())
+  email                String    @unique
+  password             String
+  firstName            String
+  lastName             String
+  role                 Role
+  profileImage         String?
+  phoneNumber          String?
+  address              String?
+  description          String?
+  pets                 Pet[]
   notificationsEnabled Boolean
-  articles           Article[]
-  reviews           Review[]
+  articles             Article[]
+  reviews              Review[]
+  Service              Service[]
+  Booking              Booking[]
 }
+
 model Pet {
   id                Int       @id @default(autoincrement())
   name              String
   type              String
   age               Int
   description       String?
-  servicesOffered    Service[] @relation("PetServicesOffered")
-  ownerId            Int
+  ownerId           Int
   owner             User      @relation(fields: [ownerId], references: [id])
   breed             String?
   size              String?
@@ -58,60 +60,65 @@ model Pet {
   vaccinationStatus String?
   medicalHistory    String?
   imageUrls         String[]
-  servicesRequested  Service[] @relation("PetServicesRequested")
-  reviews           Review[]
   availableServices Service[]
+  reviews           Review[]
+  Booking           Booking[]
 }
 
 model Service {
-  id          Int     @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   description String
   category    String
   price       Float
   duration    Int
   providerId  Int
-  provider    User    @relation(fields: [providerId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  provider    User      @relation(fields: [providerId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  Pet         Pet?      @relation(fields: [petId], references: [id])
+  petId       Int?
+  Booking     Booking[]
+  Review      Review[]
 }
 
 model Booking {
-  id            Int       @id @default(autoincrement())
+  id            Int           @id @default(autoincrement())
   serviceDate   DateTime
   serviceTime   String
   status        BookingStatus
-  petId          Int
-  pet           Pet      @relation(fields: [petId], references: [id])
-  providerId    Int
-  provider      User     @relation(fields: [providerId], references: [id])
+  petId         Int
   userId        Int
-  user          User     @relation(fields: [userId], references: [id])
   serviceId     Int
-  service       Service  @relation(fields: [serviceId], references: [id])
   paymentAmount Float
   paymentStatus PaymentStatus
   paymentDate   DateTime
+  User          User          @relation(fields: [userId], references: [id])
+  Pet           Pet           @relation(fields: [petId], references: [id])
+  Service       Service       @relation(fields: [serviceId], references: [id])
 }
 
 model Review {
-  id      Int       @id @default(autoincrement())
-  rating  Int
-  comments String
+  id        Int      @id @default(autoincrement())
+  rating    Int
+  comments  String
   userId    Int
-  user     User    @relation(fields: [userId], references: [id])
   serviceId Int
-  service  Service @relation(fields: [serviceId], references: [id])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  petId     Int?
+  User      User     @relation(fields: [userId], references: [id])
+  Pet       Pet?     @relation(fields: [petId], references: [id])
+  Service   Service  @relation(fields: [serviceId], references: [id])
 }
 
 model Article {
-  id      Int       @id @default(autoincrement())
-  title   String
-  content String
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
   authorId  Int
-  author  User    @relation(fields: [authorId], references: [id])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
 }
