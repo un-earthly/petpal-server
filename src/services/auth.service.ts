@@ -6,10 +6,10 @@ import mapUserRoleToEnum from '../utils/MapUserRoles';
 
 const prisma = new PrismaClient();
 
-export async function loginUser(email: string, password: string) {
+export async function loginUser(userData: Partial<IUser>) {
     const user = await prisma.user.findUnique({
         where: {
-            email,
+            email: userData.email,
         },
     });
 
@@ -17,7 +17,7 @@ export async function loginUser(email: string, password: string) {
         throw new Error('User not found');
     }
 
-    const passwordMatch = await compare(password, user.password);
+    const passwordMatch = await compare(userData.password as string, user.password);
 
     if (!passwordMatch) {
         throw new Error('Invalid password');
