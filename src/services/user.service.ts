@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
 import IUser from '../interfaces/user.interface';
 import ApiError from '../error/ApiError';
 import httpStatus from 'http-status';
+import { hashPass } from '../utils/hashing';
 
 const prisma = new PrismaClient();
 
@@ -36,8 +36,8 @@ export async function updateUserProfile(userId: number, updatedData: IUser) {
     return data
 }
 
-export function updateUserPassword(userId: number, newPassword: string) {
-    const hashedPassword = bcrypt.hashSync(newPassword, 10);
+export async function updateUserPassword(userId: number, newPassword: string) {
+    const hashedPassword = await hashPass(newPassword)
     return prisma.user.update({
         where: { id: userId },
         data: { password: hashedPassword },

@@ -1,9 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import { compare, hash } from 'bcrypt';
 import { generateToken } from '../middlewares/token';
 import IUser, { IUserRolesEnum } from '../interfaces/user.interface';
 import mapUserRoleToEnum from '../utils/MapUserRoles';
-
+import { hashPass, verifyPassword } from '../utils/hashing';
 const prisma = new PrismaClient();
 
 export async function loginUser(userData: Partial<IUser>) {
@@ -17,7 +16,7 @@ export async function loginUser(userData: Partial<IUser>) {
         throw new Error('User not found');
     }
 
-    const passwordMatch = await compare(userData.password as string, user.password);
+    const passwordMatch = await verifyPassword(user.password, userData.password!)
 
     if (!passwordMatch) {
         throw new Error('Invalid password');
@@ -34,7 +33,7 @@ export async function loginUser(userData: Partial<IUser>) {
 }
 
 export async function registerUser(data: IUser) {
-    const hashedPassword = await hash(data.password, 10);
+    const hashedPassword = await hashPass(data.password)
 
     const user = await prisma.user.create({
         data: {

@@ -1,5 +1,6 @@
 import express from "express";
 import { verifyToken } from "../middlewares/token";
+import UserController from "../controller/user.controller";
 const userRouter = express.Router();
 
 userRouter.get('/', verifyToken, UserController.getUserProfile);

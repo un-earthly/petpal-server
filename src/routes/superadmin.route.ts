@@ -1,6 +1,7 @@
 import express from "express";
 import { verifyToken } from "../middlewares/token";
 import { superAdminRoute } from "../middlewares/privateRoutes";
+import { SuperAdminController } from "../controller/super-admin.controller";
 const superAdminRoutes = express.Router();
 superAdminRoutes.get('/dashboard', verifyToken, superAdminRoute, SuperAdminController.getSuperAdminDashboard);
 

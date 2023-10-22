@@ -1,5 +1,6 @@
 import express from "express";
 import { verifyToken } from "../middlewares/token";
+import ServiceController from "../controller/service.controller";
 const serviceRoutes = express.Router();
 
 

@@ -1,3 +1,4 @@
+import { AdminController } from "../controller/admin.controller";
 import { adminRoute } from "../middlewares/privateRoutes";
 import { verifyToken } from "../middlewares/token";
 import express from "express"
