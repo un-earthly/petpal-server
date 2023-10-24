@@ -4,7 +4,6 @@ import { verifyToken } from "../middlewares/token";
 import express from "express"
 const adminRoutes = express.Router();
 
-adminRoutes.get('/dashboard', verifyToken, adminRoute,AdminController.getAdminDashboard);
 
 adminRoutes.get('/users', verifyToken, adminRoute,AdminController.getAllUsers);
 adminRoutes.get('/users/:userId', verifyToken, adminRoute,AdminController.getUserDetails);
