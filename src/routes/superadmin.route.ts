@@ -3,7 +3,6 @@ import { verifyToken } from "../middlewares/token";
 import { superAdminRoute } from "../middlewares/privateRoutes";
 import { SuperAdminController } from "../controller/super-admin.controller";
 const superAdminRoutes = express.Router();
-superAdminRoutes.get('/dashboard', verifyToken, superAdminRoute, SuperAdminController.getSuperAdminDashboard);
 
 superAdminRoutes.get('/admins', verifyToken, superAdminRoute, SuperAdminController.getAllAdmins);
 superAdminRoutes.post('/admins/add', verifyToken, superAdminRoute, SuperAdminController.addAdmin);
