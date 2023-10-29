@@ -17,7 +17,7 @@ export const AdminController = {
     editUserDetails: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const userId = req.params.userId;
         const updatedData = req.body;
-        const editedUser = AdminService.editUserDetails(userId, updatedData);
+        const editedUser = AdminService.editUserDetails(Number(userId), updatedData);
         sendResponse(res, httpStatus.OK, editedUser, "user details updated successfully");
     }),
     getAllServices: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -32,7 +32,7 @@ export const AdminController = {
 
     getServiceDetails: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const serviceId = req.params.serviceId;
-        const service = AdminService.getServiceDetails(serviceId);
+        const service = AdminService.getServiceDetails(Number(serviceId));
         sendResponse(res, httpStatus.OK, service, "retrieved service details successfully");
     }),
 
@@ -48,22 +48,22 @@ export const AdminController = {
     }),
     getBookingDetails: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const bookingId = req.params.bookingId;
-        const booking = AdminService.getBookingDetails(bookingId);
+        const booking = AdminService.getBookingDetails(Number(bookingId));
         sendResponse(res, httpStatus.OK, booking, "retrieved booking details successfully");
     }),
     cancelBooking: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const bookingId = req.params.bookingId;
-        const canceledBooking = AdminService.cancelBooking(bookingId);
+        const canceledBooking = AdminService.cancelBooking(Number(bookingId));
         sendResponse(res, httpStatus.OK, canceledBooking, "booking canceled successfully");
     }),
     updateBookingStatus: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const bookingId = req.params.bookingId;
         const newStatus = req.body.status;
-        const updatedBook = AdminService.updateBookingStatus(bookingId, newStatus);
+        const updatedBook = AdminService.updateBookingStatus(Number(bookingId), newStatus);
         sendResponse(res, httpStatus.OK, updatedBook, "booking status updated successfully");
     }),
     getAllArticles: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const articles = AdminService. getAllArticles();
+        const articles = AdminService.getAllArticles();
         sendResponse(res, httpStatus.OK, articles, "retrieved articles successfully");
     }),
     addArticle: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -73,14 +73,14 @@ export const AdminController = {
     }),
     getArticleDetails: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const articleId = req.params.articleId;
-        const article = AdminService.getArticleDetails(articleId);
+        const article = AdminService.getArticleDetails(Number(articleId));
         sendResponse(res, httpStatus.OK, article, "retrieved article details successfully");
     }),
 
     editArticleDetails: catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const articleId = req.params.articleId;
         const updateData = req.body;
-        const updatedData = AdminService.editArticleDetails(articleId, updateData);
+        const updatedData = AdminService.editArticleDetails(Number(articleId), updateData);
         sendResponse(res, httpStatus.OK, updatedData, "article details updated successfully");
     }),
 }

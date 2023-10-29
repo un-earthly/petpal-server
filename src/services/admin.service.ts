@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import IUser from '../interfaces/user.interface';
+import IService from '../interfaces/service.inteface';
+import { IBookingStatusEnum } from '../interfaces/booking.interface';
 
 const prisma = new PrismaClient();
 
@@ -35,13 +37,13 @@ async function getAllServices() {
     const services = await prisma.service.findMany();
     return services;
 }
-async function addService(serviceData) {
+async function addService(data: any) {
     const newService = await prisma.service.create({
-        data: serviceData,
+        data
     });
     return newService;
 }
-async function getServiceDetails(serviceId) {
+async function getServiceDetails(serviceId: number) {
     const service = await prisma.service.findUnique({
         where: {
             id: serviceId,
@@ -49,7 +51,7 @@ async function getServiceDetails(serviceId) {
     });
     return service;
 }
-async function editServiceDetails(serviceId: number, updatedData) {
+async function editServiceDetails(serviceId: number, updatedData: any) {
     const updatedService = await prisma.service.update({
         where: {
             id: serviceId,
@@ -62,7 +64,7 @@ async function getAllBookings() {
     const bookings = await prisma.booking.findMany();
     return bookings;
 }
-async function getBookingDetails(bookingId) {
+async function getBookingDetails(bookingId: number) {
     const booking = await prisma.booking.findUnique({
         where: {
             id: bookingId,
@@ -70,18 +72,18 @@ async function getBookingDetails(bookingId) {
     });
     return booking;
 }
-async function cancelBooking(bookingId) {
+async function cancelBooking(bookingId: number) {
     const canceledBooking = await prisma.booking.update({
         where: {
             id: bookingId,
         },
         data: {
-            status: 'canceled', // Update the status to "canceled" or a relevant value.
+            status: 'CANCELED',
         },
     });
     return canceledBooking;
 }
-async function updateBookingStatus(bookingId, newStatus) {
+async function updateBookingStatus(bookingId: number, newStatus: IBookingStatusEnum) {
     const updatedBooking = await prisma.booking.update({
         where: {
             id: bookingId,
@@ -96,13 +98,13 @@ async function getAllArticles() {
     const articles = await prisma.article.findMany();
     return articles;
 }
-async function addArticle(articleData) {
+async function addArticle(articleData: any) {
     const newArticle = await prisma.article.create({
         data: articleData,
     });
     return newArticle;
 }
-async function getArticleDetails(articleId) {
+async function getArticleDetails(articleId: number) {
     const article = await prisma.article.findUnique({
         where: {
             id: articleId,
@@ -110,7 +112,7 @@ async function getArticleDetails(articleId) {
     });
     return article;
 }
-async function editArticleDetails(articleId, updatedData) {
+async function editArticleDetails(articleId: number, updatedData: any) {
     const updatedArticle = await prisma.article.update({
         where: {
             id: articleId,

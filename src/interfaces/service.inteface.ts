@@ -4,6 +4,8 @@ export interface ITimeSlot {
     serviceId: number;
     isAvailable: boolean;
     date: Date;
+    createdAt: Date;
+    updatedAt: Date;
 }
 interface IService {
     id: number;
@@ -14,6 +16,8 @@ interface IService {
     price: string;
     selectedTime: string;
     availableTimeSlots: ITimeSlot[];
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export default IService;

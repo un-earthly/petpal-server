@@ -21,6 +21,8 @@ interface IUser {
     bookedServicesIds: string[];
     perticipatingEventsIds: string[];
     gender: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 

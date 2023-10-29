@@ -20,4 +20,6 @@ export default interface IBooking {
     userId: number;
     serviceId: number;
     petId: number;
+    createdAt: Date;
+    updatedAt: Date;
 }

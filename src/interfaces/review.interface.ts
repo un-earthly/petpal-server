@@ -5,5 +5,7 @@ interface IReview {
     userID: number;
     serviceId?: number;
     petId?: number;
+    createdAt: Date;
+    updatedAt: Date;
 }
 export default IReview

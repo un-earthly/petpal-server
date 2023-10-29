@@ -17,5 +17,7 @@ interface IPet {
     imageUrls: string[];
     forAddoption: boolean;
     forSell: boolean;
+    createdAt: Date;
+    updatedAt: Date;
 }
 export default IPet

@@ -78,16 +78,16 @@ model TimeSlot {
 }
 
 model Service {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String
-  category    String
-  price       Float
-  duration    Int
-  providerId  Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  petId       Int?
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
+  category     String
+  price        Float
+  image        String
+  selectedTime String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  petId        Int?
 }
 
 model Booking {
