@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import IUser from '../interfaces/user.interface';
 import ApiError from '../error/ApiError';
 import httpStatus from 'http-status';
 import { hashPass } from '../utils/hashing';
@@ -11,7 +10,7 @@ export function getUserProfile(userId: number) {
 }
 
 
-export async function updateUserProfile(userId: number, updatedData: IUser) {
+export async function updateUserProfile(userId: number, updatedData: any) {
     const existingUserData = await prisma.user.findUnique({
         where: { id: userId },
     });
@@ -22,16 +21,7 @@ export async function updateUserProfile(userId: number, updatedData: IUser) {
 
     const data = await prisma.user.update({
         where: { id: userId },
-        data: {
-            address: updatedData.address,
-            description: updatedData.description,
-            firstName: updatedData.firstName,
-            email: updatedData.email,
-            lastName: updatedData.lastName,
-            notificationsEnabled: updatedData.notificationsEnabled,
-            phoneNumber: updatedData.phoneNumber,
-            profileImage: updatedData.profileImage,
-        },
+        data: updatedData,
     });
     return data
 }
