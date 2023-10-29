@@ -28,58 +28,66 @@ enum PaymentStatus {
 }
 
 model User {
-  id                   Int       @id @default(autoincrement())
-  email                String    @unique
-  password             String
-  firstName            String
-  lastName             String
-  role                 Role
-  profileImage         String?
-  phoneNumber          String?
-  address              String?
-  description          String?
-  pets                 Pet[]
-  notificationsEnabled Boolean
-  articles             Article[]
-  reviews              Review[]
-  service              Service[]
-  booking              Booking[]
+  id                     Int      @id @default(autoincrement())
+  email                  String   @unique
+  password               String
+  name                   String
+  role                   Role
+  profileImage           String?
+  phoneNumber            String?
+  address                String?
+  bio                    String?
+  gender                 String?
+  pets                   String[]
+  articleId              String[]
+  reviewIds              String[]
+  bookedServicesIds      String[]
+  perticipatingEventsIds String[]
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
 }
 
 model Pet {
-  id                Int       @id @default(autoincrement())
+  id                Int      @id @default(autoincrement())
   name              String
   type              String
   age               Int
-  description       String?
+  bio               String?
   ownerId           Int
-  owner             User      @relation(fields: [ownerId], references: [id])
   breed             String?
   size              String?
   gender            String?
   vaccinationStatus String?
   medicalHistory    String?
   imageUrls         String[]
-  availableServices Service[]
-  reviews           Review[]
-  booking           Booking[]
+  forAddoption      Boolean
+  forSell           Boolean
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model TimeSlot {
+  id          Int      @id @default(autoincrement())
+  startTime   String
+  endTime     String
+  serviceId   Int
+  isAvailable Boolean
+  date        DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Service {
-  id          Int       @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
   description String
   category    String
   price       Float
   duration    Int
   providerId  Int
-  provider    User      @relation(fields: [providerId], references: [id])
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  Pet         Pet?      @relation(fields: [petId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   petId       Int?
-  booking     Booking[]
-  review      Review[]
 }
 
 model Booking {
@@ -93,9 +101,8 @@ model Booking {
   paymentAmount Float
   paymentStatus PaymentStatus
   paymentDate   DateTime
-  user          User          @relation(fields: [userId], references: [id])
-  Pet           Pet           @relation(fields: [petId], references: [id])
-  Service       Service       @relation(fields: [serviceId], references: [id])
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 }
 
 model Review {
@@ -107,9 +114,6 @@ model Review {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   petId     Int?
-  user      User     @relation(fields: [userId], references: [id])
-  pet       Pet?     @relation(fields: [petId], references: [id])
-  service   Service  @relation(fields: [serviceId], references: [id])
 }
 
 model Article {
@@ -119,6 +123,5 @@ model Article {
   authorId  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User?    @relation(fields: [userId], references: [id])
   userId    Int?
 }

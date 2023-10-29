@@ -1,21 +1,19 @@
-import IBooking from "./booking.interface";
-import IPet from "./pet.interface";
-import IReview from "./review.interface";
-import IUser from "./user.interface";
-
+export interface ITimeSlot {
+    startTime: string;
+    endTime: string;
+    serviceId: number;
+    isAvailable: boolean;
+    date: Date;
+}
 interface IService {
     id: number;
-    name: string;
+    title: string;
     description: string;
     category: string;
-    price: number;
-    duration: number;
-    providerId: number;
-    provider: IUser;
-    pet: IPet | null;
-    booking: IBooking[];
-    review: IReview[];
+    image: string;
+    price: string;
+    selectedTime: string;
+    availableTimeSlots: ITimeSlot[];
 }
 
-
-export default IService
+export default IService;

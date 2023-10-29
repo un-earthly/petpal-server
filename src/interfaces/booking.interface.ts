@@ -1,7 +1,3 @@
-import IPet from "./pet.interface";
-import IService from "./service.inteface";
-import IUser from "./user.interface";
-
 export enum IPaymentEnum {
     UNPAID = 'UNPAID',
     PAID = 'PAID',
@@ -13,20 +9,15 @@ export enum IBookingStatusEnum {
     COMPLETED = 'COMPLETED',
     CANCELED = 'CANCELED',
 }
-interface IBooking {
+export default interface IBooking {
     id: number;
-    serviceDate: Date;
+    bookingDate: Date;
     serviceTime: string;
     status: IBookingStatusEnum;
-    petId: number;
-    userId: number;
-    serviceId: number;
     paymentAmount: number;
     paymentStatus: IPaymentEnum;
     paymentDate: Date;
-    user: IUser;
-    pet: IPet;
-    service:IService;
+    userId: number;
+    serviceId: number;
+    petId: number;
 }
-
-export default IBooking;

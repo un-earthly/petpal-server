@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import IUser from '../interfaces/user.interface';
 
 const prisma = new PrismaClient();
 
@@ -21,7 +22,7 @@ async function getUserDetails(userId: number) {
     });
     return user;
 }
-async function editUserDetails(userId, updatedData) {
+async function editUserDetails(userId: number, updatedData: Partial<IUser>) {
     const updatedUser = await prisma.user.update({
         where: {
             id: userId,
