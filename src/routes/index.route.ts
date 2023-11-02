@@ -18,7 +18,7 @@ const routes = [
         children: userRoutes
     },
     {
-        path: "/pet",
+        path: "/pets",
         children: petRoutes
     },
     {

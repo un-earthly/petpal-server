@@ -9,7 +9,7 @@ export function sendResponse(res: Response, status: number, data: any, message?:
     };
 
     if (token) {
-        response['token'] = token;
+        response['token'] = token; 
     }
 
     res.status(status).json(response);

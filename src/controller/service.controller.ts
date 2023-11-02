@@ -39,15 +39,10 @@ const ServiceController = {
         const serviceId = parseInt(req.params.serviceId, 10);
         const userId = req.user.id;
         const bookingData = req.body;
-        const bookingResult = await servicesService.bookService(serviceId, userId, bookingData);
+        const bookingResult = await servicesService.bookService(serviceId, userId);
         sendResponse(res, httpStatus.CREATED, bookingResult, 'Service booked successfully');
     }),
 
-    getCartContents: catchAsync(async (req: Request, res: Response) => {
-        const userId = req.user.id; 
-        const cartContents = await servicesService.getCartContents(userId);
-        sendResponse(res, httpStatus.OK, cartContents, 'Cart contents retrieved successfully');
-    }),
 
     checkoutCart: catchAsync(async (req: Request, res: Response) => {
         const userId = req.user.id;

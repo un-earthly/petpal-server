@@ -3,9 +3,7 @@ import { ITokenPayload } from "../interfaces/token.interface";
 import jwt from 'jsonwebtoken';
 import { sendResponse } from "../utils/sendResponse";
 
-const secretKey = process.env.JWT_SECRET as string;
-
-
+const secretKey = String(process.env.JWT_SECRET);
 
 function generateToken(data: ITokenPayload) {
     return jwt.sign(data, secretKey, { expiresIn: '1h' });
@@ -30,4 +28,4 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
 
 
 }
-export {verifyToken, generateToken}
+export { verifyToken, generateToken }

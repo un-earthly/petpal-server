@@ -1,16 +1,35 @@
-import { Request, Response, NextFunction } from 'express';
 
-export function globalErrorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
-  console.error('Global Error Handler:', err);
+import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
+import ApiError from './ApiError';
+export type IGenericErrorMessage = {
+  path: string | number;
+  message: string;
+};
+export const globalErrorHandler: ErrorRequestHandler = (
+  error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let statusCode = 500;
+  let message = 'Something went wrong !';
+  let errorMessages = ""
 
-  // Define a custom error response format
-  const errorResponse = {
+  if (error instanceof ApiError) {
+    statusCode = error?.statusCode;
+    message = error.message;
+    errorMessages = error?.message
+  } else if (error instanceof Error) {
+    message = error?.message;
+    errorMessages = error?.message
+  }
+
+  res.status(statusCode).json({
     success: false,
-    message: err.message || 'Internal Server Error',
-  };
+    message,
+    errorMessages,
+    stack: process.env.NODE_ENV !== 'production' ? error?.stack : undefined,
+  });
+};
 
-  // Set the HTTP status code for the response
-  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-
-  res.status(statusCode).json(errorResponse);
-}
+export default globalErrorHandler;
