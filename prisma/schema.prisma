@@ -1,11 +1,6 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("POSTGRES_URL")
-  // directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 enum Role {
@@ -28,81 +23,114 @@ enum PaymentStatus {
 }
 
 model User {
-  id                     Int      @id @default(autoincrement())
-  email                  String   @unique
-  password               String
-  name                   String
-  role                   Role
-  profileImage           String?
-  phoneNumber            String?
-  address                String?
-  bio                    String?
-  gender                 String?
-  pets                   String[]
-  articleId              String[]
-  reviewIds              String[]
-  bookedServicesIds      String[]
-  perticipatingEventsIds String[]
-  createdAt              DateTime @default(now())
-  updatedAt              DateTime @updatedAt
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  password     String
+  name         String
+  role         Role
+  profileImage String?
+  phoneNumber  String?
+  address      String?
+  bio          String?
+  gender       String?
+  // pets                   String[]
+  // articleId              String[]
+  // reviewIds              String[]
+  // bookedServicesIds      String[]
+  // perticipatingEventsIds String[]
+  // Pet          Pet[]
+  Article      Article[]
+  Review       Review[]
+  Payment      Payment[]
+  Booking      Booking[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
 }
 
-model Pet {
-  id                Int      @id @default(autoincrement())
-  name              String
-  type              String
-  age               Int
-  bio               String?
-  ownerId           Int
-  breed             String?
-  size              String?
-  gender            String?
-  vaccinationStatus String?
-  medicalHistory    String?
-  imageUrls         String[]
-  forAddoption      Boolean
-  forSell           Boolean
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-}
+// model Pet {
+//   id                Int       @id @default(autoincrement())
+//   name              String
+//   type              String
+//   age               Int
+//   bio               String?
+//   ownerId           Int
+//   owner             User      @relation(fields: [ownerId], references: [id])
+//   breed             String?
+//   size              String?
+//   gender            String?
+//   vaccinationStatus String?
+//   medicalHistory    String?
+//   imageUrls         String[]
+//   forAddoption      Boolean
+//   forSell           Boolean
+//   createdAt         DateTime  @default(now())
+//   updatedAt         DateTime  @updatedAt
+//   Service           Service[]
+// }
 
 model TimeSlot {
   id          Int      @id @default(autoincrement())
   startTime   String
   endTime     String
   serviceId   Int
+  service     Service  @relation(fields: [serviceId], references: [id])
   isAvailable Boolean
   date        DateTime
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@map("timeslots")
 }
 
 model Service {
-  id           Int      @id @default(autoincrement())
+  id           Int        @id @default(autoincrement())
   title        String
   description  String
   category     String
   price        Float
   image        String
   selectedTime String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  petId        Int?
+  isPaid       Boolean
+  // petId        Int?
+  // pet          Pet?       @relation(fields: [petId], references: [id])
+  TimeSlot     TimeSlot[]
+  Review       Review[]
+  Booking      Booking[]
+  Payment      Payment[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  @@map("services")
 }
 
-model Booking {
+model Payment {
   id            Int           @id @default(autoincrement())
-  serviceDate   DateTime
-  serviceTime   String
-  status        BookingStatus
-  petId         Int
-  userId        Int
   serviceId     Int
-  paymentAmount Float
+  service       Service       @relation(fields: [serviceId], references: [id])
+  userId        Int
+  user          User          @relation(fields: [userId], references: [id])
+  totalAmount   Float
+  transactionId Int
   paymentStatus PaymentStatus
   paymentDate   DateTime
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+  @@map("payments")
+}
+
+model Booking {
+  id            Int           @id @default(autoincrement())
+  appointmentAt DateTime
+  status        BookingStatus
+  userId        Int
+  user          User          @relation(fields: [userId], references: [id])
+  serviceId     Int
+  service       Service       @relation(fields: [serviceId], references: [id])
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  @@map("bookings")
 }
 
 model Review {
@@ -110,10 +138,12 @@ model Review {
   rating    Int
   comments  String
   userId    Int
+  user      User     @relation(fields: [userId], references: [id])
   serviceId Int
+  service   Service  @relation(fields: [serviceId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  petId     Int?
+  @@map("reviews")
 }
 
 model Article {
@@ -121,7 +151,106 @@ model Article {
   title     String
   content   String
   authorId  Int
+  author    User     @relation(fields: [authorId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    Int?
+@@map("articles")
 }
+
+// model User {
+//   id                Int       @id @default(autoincrement())
+//   email             String    @unique
+//   password          String
+//   name              String
+//   role              Role
+//   profileImage      String?
+//   phoneNumber       String?
+//   address           String?
+//   bio               String?
+//   gender            String?
+//   pets              Pet[]
+//   articleId         Article[]
+//   reviewIds         Review[]
+//   bookedServicesIds Booking[]
+//   createdAt         DateTime  @default(now())
+//   updatedAt         DateTime  @updatedAt
+// }
+
+// model Pet {
+//   id                Int       @id @default(autoincrement())
+//   name              String
+//   type              String
+//   age               Int
+//   bio               String?
+//   ownerId           Int
+//   owner             User      @relation(fields: [ownerId], references: [id])
+//   breed             String?
+//   size              String?
+//   gender            String?
+//   vaccinationStatus String?
+//   medicalHistory    String?
+//   imageUrls         String[]
+//   forAdoption       Boolean
+//   forSell           Boolean
+//   createdAt         DateTime  @default(now())
+//   updatedAt         DateTime  @updatedAt
+//   Booking           Booking[]
+//   Service           Service[]
+// }
+
+// model Article {
+//   id        Int      @id @default(autoincrement())
+//   title     String
+//   content   String
+//   authorId  Int
+//   author    User     @relation(fields: [authorId], references: [id]) 
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   userId    Int?
+// }
+
+// model Review {
+//   id        Int      @id @default(autoincrement())
+//   rating    Int
+//   comments  String
+//   userId    Int
+//   user      User     @relation(fields: [userId], references: [id])
+//   serviceId Int
+//   petId     Int?
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+
+// model Booking {
+//   id            Int           @id @default(autoincrement())
+//   serviceDate   DateTime
+//   serviceTime   String
+//   status        BookingStatus
+//   petId         Int
+//   pet           Pet           @relation(fields: [petId], references: [id])
+//   userId        Int
+//   user          User          @relation(fields: [userId], references: [id])
+//   serviceId     Int
+//   service       Service       @relation(fields: [serviceId], references: [id])
+//   paymentAmount Float
+//   paymentStatus PaymentStatus
+//   paymentDate   DateTime
+//   createdAt     DateTime      @default(now())
+//   updatedAt     DateTime      @updatedAt
+// }
+
+// model Service {
+//   id           Int       @id @default(autoincrement())
+//   title        String
+//   description  String
+//   category     String
+//   price        Float
+//   image        String
+//   selectedTime String?
+//   createdAt    DateTime  @default(now())
+//   updatedAt    DateTime  @updatedAt
+//   petId        Int?
+//   pet          Pet?      @relation(fields: [petId], references: [id])
+//   Booking      Booking[]
+// }

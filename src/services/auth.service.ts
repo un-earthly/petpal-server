@@ -63,5 +63,5 @@ export async function registerUser(data: IUser) {
         }
     });
     const token = generateToken({ email: user.email, id: user.id, role: mapUserRoleToEnum(user.role) })
-    return { data, token }
+    return { user, token }
 }
