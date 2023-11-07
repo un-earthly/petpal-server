@@ -8,7 +8,6 @@ import httpStatus from 'http-status';
 const prisma = new PrismaClient();
 
 export async function loginUser(userData: Partial<IUser>) {
-    console.log(userData)
 
     const user = await prisma.user.findUnique({
         where: {
@@ -33,7 +32,7 @@ export async function loginUser(userData: Partial<IUser>) {
         role: roleEnum,
     });
 
-    return { token, user };
+    return { ...user, token };
 }
 
 export async function registerUser(data: IUser) {

@@ -13,9 +13,10 @@ interface IService {
     description: string;
     category: string;
     image: string;
-    price: string;
+    price: number;
     selectedTime: string;
-    availableTimeSlots: ITimeSlot[];
+    availableTimeSlots?: ITimeSlot[];
+    isPaid: boolean;
     createdAt: Date;
     updatedAt: Date;
 }

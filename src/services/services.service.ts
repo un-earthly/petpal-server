@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import IReview from '../interfaces/review.interface';
+import IService from '../interfaces/service.inteface';
+import IBooking from '../interfaces/booking.interface';
 
 const prisma = new PrismaClient();
 
@@ -8,7 +10,39 @@ class ServiceService {
         const services = await prisma.service.findMany();
         return services;
     }
+    async createServices(data: IService) {
 
+        const avaiableSlots = prisma.timeSlot.findMany({
+            where: {
+                isAvailable: true
+            }
+        });
+
+
+
+
+
+        const services = await prisma.service.create({
+            data: {
+                category: data.category,
+                description: data.description,
+                image: data.image,
+                price: data.price,
+                title: data.title,
+            }
+        })
+        return services;
+    }
+
+    async updateServices(data: Partial<IService>) {
+        const results = await prisma.service.update({
+            where: {
+                id: data.id
+            },
+            data
+        });
+        return results;
+    }
     async searchServices(query: any) {
         const results = await prisma.service.findMany({
             where: {
@@ -47,22 +81,23 @@ class ServiceService {
         });
         return newReview;
     }
-
-    async bookService(serviceId: number, userId: number) {
-        const newBooking = await prisma.booking.create({
-            data: {
-                serviceId,
-                userId,
-                
-            },
+    async deleteService(serviceId: number,) {
+        const newReview = await prisma.service.delete({
+            where: {
+                id: serviceId
+            }
         });
-        return newBooking;
+        return newReview;
     }
 
+    // async bookService(data:IBooking) {
+    //     const newBooking = await prisma.booking.create({
+    //         data
+    //     });
+    //     return newBooking;
+    // }
 
-    async checkoutCart(userId: number) {
-        
-    }
+
 }
 
 export default new ServiceService();

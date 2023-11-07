@@ -10,7 +10,7 @@ function generateToken(data: ITokenPayload) {
 }
 
 function verifyToken(req: Request, res: Response, next: NextFunction) {
-    const token = req.headers.authorization as string;
+    const token = req.headers.authorization && req.headers.authorization.includes(" ") ? req.headers.authorization?.split(" ")[1] : req.headers.authorization as string;
 
     if (!token) {
         sendResponse(res, 401, null, 'Unauthorized: Token is missing');

@@ -1,6 +1,7 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
   provider = "postgresql"
   url      = env("POSTGRES_URL")
@@ -78,8 +79,6 @@ model TimeSlot {
   id          Int      @id @default(autoincrement())
   startTime   String
   endTime     String
-  serviceId   Int
-  service     Service  @relation(fields: [serviceId], references: [id])
   isAvailable Boolean
   date        DateTime
   createdAt   DateTime @default(now())
@@ -89,22 +88,20 @@ model TimeSlot {
 }
 
 model Service {
-  id           Int        @id @default(autoincrement())
-  title        String
-  description  String
-  category     String
-  price        Float
-  image        String
-  selectedTime String?
-  isPaid       Boolean
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String
+  category    String
+  price       Float
+  image       String
   // petId        Int?
   // pet          Pet?       @relation(fields: [petId], references: [id])
-  TimeSlot     TimeSlot[]
-  Review       Review[]
-  Booking      Booking[]
-  Payment      Payment[]
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  // TimeSlot     TimeSlot[]
+  Review      Review[]
+  Booking     Booking[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  Payment     Payment[]
 
   @@map("service")
 }
@@ -121,13 +118,16 @@ model Payment {
   paymentDate   DateTime
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+  Booking       Booking[]
 
   @@map("payment")
 }
 
 model Booking {
   id            Int           @id @default(autoincrement())
-  appointmentAt DateTime
+  appointmentAt String
+  paymentId     Int
+  payment       Payment       @relation(fields: [paymentId], references: [id])
   status        BookingStatus
   userId        Int
   user          User          @relation(fields: [userId], references: [id])
