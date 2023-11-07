@@ -6,7 +6,7 @@ const serviceRoutes = express.Router();
 
 serviceRoutes.get('/', ServiceController.getAllServices);
 serviceRoutes.post('/', ServiceController.createServices);
-serviceRoutes.put('/', ServiceController.updateService);
+serviceRoutes.put('/:serviceId', ServiceController.updateService);
 serviceRoutes.get('/search', ServiceController.searchServices);
 serviceRoutes.get('/:serviceId', ServiceController.getServiceDetails);
 

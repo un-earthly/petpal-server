@@ -2,6 +2,8 @@ import { PrismaClient } from '@prisma/client';
 import IReview from '../interfaces/review.interface';
 import IService from '../interfaces/service.inteface';
 import IBooking from '../interfaces/booking.interface';
+import ApiError from '../error/ApiError';
+import httpStatus from 'http-status';
 
 const prisma = new PrismaClient();
 
@@ -11,17 +13,6 @@ class ServiceService {
         return services;
     }
     async createServices(data: IService) {
-
-        const avaiableSlots = prisma.timeSlot.findMany({
-            where: {
-                isAvailable: true
-            }
-        });
-
-
-
-
-
         const services = await prisma.service.create({
             data: {
                 category: data.category,
@@ -34,13 +25,16 @@ class ServiceService {
         return services;
     }
 
-    async updateServices(data: Partial<IService>) {
+    async updateServices(data: Partial<IService>, id: number) {
         const results = await prisma.service.update({
             where: {
-                id: data.id
+                id: id
             },
             data
         });
+        if (!results) {
+            throw new ApiError(httpStatus.NOT_FOUND, "No Records Found")
+        }
         return results;
     }
     async searchServices(query: any) {

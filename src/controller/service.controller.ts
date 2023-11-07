@@ -14,7 +14,7 @@ const ServiceController = {
         sendResponse(res, httpStatus.OK, services, 'services created successfully');
     }),
     updateService: catchAsync(async (req: Request, res: Response) => {
-        const services = await servicesService.createServices(req.body);
+        const services = await servicesService.updateServices(req.body, parseInt(req.params.serviceId, 10));
         sendResponse(res, httpStatus.OK, services, 'services updated successfully');
     }),
 
