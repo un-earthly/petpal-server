@@ -15,7 +15,7 @@ interface IUser {
     phoneNumber: string;
     address: string;
     bio: string;
-    petIds: string[];
+    // petIds: string[];
     articleIds: string[];
     reviewIds: string[];
     bookedServicesIds: string[];

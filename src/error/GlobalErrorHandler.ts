@@ -24,6 +24,8 @@ export const globalErrorHandler: ErrorRequestHandler = (
     errorMessages = error?.message
   }
 
+  console.log(error)
+
   res.status(statusCode).json({
     success: false,
     message,

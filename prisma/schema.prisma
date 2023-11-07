@@ -1,3 +1,6 @@
+generator client {
+  provider = "prisma-client-js"
+}
 datasource db {
   provider = "postgresql"
   url      = env("POSTGRES_URL")
@@ -47,7 +50,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("users")
+  @@map("user")
 }
 
 // model Pet {
@@ -82,7 +85,7 @@ model TimeSlot {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  @@map("timeslots")
+  @@map("timeslot")
 }
 
 model Service {
@@ -102,7 +105,8 @@ model Service {
   Payment      Payment[]
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
-  @@map("services")
+
+  @@map("service")
 }
 
 model Payment {
@@ -117,7 +121,8 @@ model Payment {
   paymentDate   DateTime
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-  @@map("payments")
+
+  @@map("payment")
 }
 
 model Booking {
@@ -130,7 +135,8 @@ model Booking {
   service       Service       @relation(fields: [serviceId], references: [id])
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-  @@map("bookings")
+
+  @@map("booking")
 }
 
 model Review {
@@ -143,7 +149,8 @@ model Review {
   service   Service  @relation(fields: [serviceId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  @@map("reviews")
+
+  @@map("review")
 }
 
 model Article {
@@ -155,7 +162,8 @@ model Article {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    Int?
-@@map("articles")
+
+  @@map("article")
 }
 
 // model User {

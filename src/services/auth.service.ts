@@ -8,20 +8,22 @@ import httpStatus from 'http-status';
 const prisma = new PrismaClient();
 
 export async function loginUser(userData: Partial<IUser>) {
+    console.log(userData)
+
     const user = await prisma.user.findUnique({
         where: {
             email: userData.email,
         },
     });
-
+    console.log(user)
     if (!user) {
-        throw new Error('User not found');
+        throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
     }
 
     const passwordMatch = await verifyPassword(user.password, userData.password!)
 
     if (!passwordMatch) {
-        throw new Error('Invalid password');
+        throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid password');
     }
 
     const roleEnum: IUserRolesEnum = mapUserRoleToEnum(user.role);
@@ -54,6 +56,9 @@ export async function registerUser(data: IUser) {
     if (!data.email) {
         throw new ApiError(httpStatus.NOT_FOUND, "Please Enter A Valid Email")
     }
+    if (!data.role) {
+        throw new ApiError(httpStatus.NOT_FOUND, "Please Enter A Valid Role")
+    }
     const user = await prisma.user.create({
         data: {
             email: data.email,
@@ -63,5 +68,5 @@ export async function registerUser(data: IUser) {
         }
     });
     const token = generateToken({ email: user.email, id: user.id, role: mapUserRoleToEnum(user.role) })
-    return { user, token }
+    return { ...user, token }
 }

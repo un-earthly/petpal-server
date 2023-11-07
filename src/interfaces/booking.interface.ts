@@ -19,7 +19,7 @@ export default interface IBooking {
     paymentDate: Date;
     userId: number;
     serviceId: number;
-    petId: number;
+    // petId: number;
     createdAt: Date;
     updatedAt: Date;
 }
