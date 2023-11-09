@@ -35,9 +35,10 @@ export async function updateUserPassword(userId: number, newPassword: string) {
 }
 
 export function deleteUserAccount(userId: number) {
-    return prisma.user.delete({ where: { id: userId } });
+    return prisma.user.delete({
+        where: {
+            id: userId
+        }
+    });
 }
 
-export function getUserBookings(userId: number) {
-    return prisma.booking.findMany({ where: { userId: userId } });
-}

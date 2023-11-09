@@ -1,6 +1,7 @@
 import userRoutes from "./user.route";
 import authRoutes from "./auth.route";
 import serviceRoutes from "./service.route";
+import timeSlotsRoutes from "./timeSlots.route";
 import bookingsRoutes from "./booking.route";
 import adminRoutes from "./admin.route";
 import superAdminRoutes from "./superadmin.route";
@@ -28,6 +29,10 @@ const routes = [
     {
         path: "/bookings",
         children: bookingsRoutes
+    },
+    {
+        path: "/timeslots",
+        children: timeSlotsRoutes
     },
     {
         path: "/admin",

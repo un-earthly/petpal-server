@@ -25,6 +25,7 @@ enum PaymentStatus {
   PAID
   REFUNDED
 }
+
 enum PetServiceCategory {
   GROOMING
   BOARDING
@@ -35,6 +36,7 @@ enum PetServiceCategory {
   DAYCARE
   OTHERS
 }
+
 model User {
   id           Int       @id @default(autoincrement())
   email        String    @unique
@@ -85,19 +87,20 @@ model User {
 // }
 
 model TimeSlot {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   startTime   String
   endTime     String
   isAvailable Boolean
   date        DateTime
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  Booking     Booking[]
 
   @@map("timeslot")
 }
 
 model Service {
-  id          Int       @id @default(autoincrement())
+  id          Int                @id @default(autoincrement())
   title       String
   description String
   category    PetServiceCategory
@@ -108,8 +111,8 @@ model Service {
   // TimeSlot     TimeSlot[]
   Review      Review[]
   Booking     Booking[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
   Payment     Payment[]
 
   @@map("service")
@@ -133,17 +136,18 @@ model Payment {
 }
 
 model Booking {
-  id            Int           @id @default(autoincrement())
-  appointmentAt String
-  paymentId     Int
-  payment       Payment       @relation(fields: [paymentId], references: [id])
-  status        BookingStatus
-  userId        Int
-  user          User          @relation(fields: [userId], references: [id])
-  serviceId     Int
-  service       Service       @relation(fields: [serviceId], references: [id])
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id         Int           @id @default(autoincrement())
+  timeSlotId Int
+  timeSlot   TimeSlot      @relation(fields: [timeSlotId], references: [id])
+  paymentId  Int?
+  payment    Payment?      @relation(fields: [paymentId], references: [id])
+  status     BookingStatus @default(PENDING)
+  userId     Int
+  user       User          @relation(fields: [userId], references: [id])
+  serviceId  Int
+  service    Service       @relation(fields: [serviceId], references: [id])
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
 
   @@map("booking")
 }

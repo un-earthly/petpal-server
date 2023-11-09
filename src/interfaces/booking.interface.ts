@@ -1,4 +1,4 @@
-import IService from "./service.inteface";
+import IService, { ITimeSlot } from "./service.inteface";
 import IUser from "./user.interface";
 
 export enum IPaymentEnum {
@@ -26,7 +26,8 @@ export default interface IBooking {
     // createdAt: Date;
     // updatedAt: Date;
     id: number
-    appointmentAt: Date;
+    timeSlotId:number
+    timeSlot:ITimeSlot
     status: IBookingStatusEnum
     userId: number
     user?: IUser
