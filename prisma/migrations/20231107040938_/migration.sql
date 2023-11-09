@@ -7,6 +7,9 @@ CREATE TYPE "BookingStatus" AS ENUM ('PENDING', 'CONFIRMED', 'COMPLETED', 'CANCE
 -- CreateEnum
 CREATE TYPE "PaymentStatus" AS ENUM ('UNPAID', 'PAID', 'REFUNDED');
 
+-- CreateEnum
+CREATE TYPE "PetServiceCategory" AS ENUM ('GROOMING', 'BOARDING', 'TRAINING', 'WALKING', 'VETERINARY', 'SITTING', 'DAYCARE', 'OTHERS');
+
 -- CreateTable
 CREATE TABLE "user" (
     "id" SERIAL NOT NULL,
@@ -30,7 +33,6 @@ CREATE TABLE "timeslot" (
     "id" SERIAL NOT NULL,
     "startTime" TEXT NOT NULL,
     "endTime" TEXT NOT NULL,
-    "serviceId" INTEGER NOT NULL,
     "isAvailable" BOOLEAN NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -44,11 +46,9 @@ CREATE TABLE "service" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "category" TEXT NOT NULL,
+    "category" "PetServiceCategory" NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
     "image" TEXT NOT NULL,
-    "selectedTime" TEXT,
-    "isPaid" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -73,7 +73,8 @@ CREATE TABLE "payment" (
 -- CreateTable
 CREATE TABLE "booking" (
     "id" SERIAL NOT NULL,
-    "appointmentAt" TIMESTAMP(3) NOT NULL,
+    "appointmentAt" TEXT NOT NULL,
+    "paymentId" INTEGER NOT NULL,
     "status" "BookingStatus" NOT NULL,
     "userId" INTEGER NOT NULL,
     "serviceId" INTEGER NOT NULL,
@@ -113,13 +114,13 @@ CREATE TABLE "article" (
 CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
 -- AddForeignKey
-ALTER TABLE "timeslot" ADD CONSTRAINT "timeslot_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE "payment" ADD CONSTRAINT "payment_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "payment" ADD CONSTRAINT "payment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "booking" ADD CONSTRAINT "booking_paymentId_fkey" FOREIGN KEY ("paymentId") REFERENCES "payment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "booking" ADD CONSTRAINT "booking_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

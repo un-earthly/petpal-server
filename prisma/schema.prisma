@@ -25,7 +25,16 @@ enum PaymentStatus {
   PAID
   REFUNDED
 }
-
+enum PetServiceCategory {
+  GROOMING
+  BOARDING
+  TRAINING
+  WALKING
+  VETERINARY
+  SITTING
+  DAYCARE
+  OTHERS
+}
 model User {
   id           Int       @id @default(autoincrement())
   email        String    @unique
@@ -91,7 +100,7 @@ model Service {
   id          Int       @id @default(autoincrement())
   title       String
   description String
-  category    String
+  category    PetServiceCategory
   price       Float
   image       String
   // petId        Int?

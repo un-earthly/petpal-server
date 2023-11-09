@@ -40,7 +40,7 @@ class ServiceService {
     async searchServices(query: any) {
         const results = await prisma.service.findMany({
             where: {
-                title: query
+                title: query,
             },
         });
         return results;
@@ -68,7 +68,7 @@ class ServiceService {
         const newReview = await prisma.review.create({
             data: {
                 comments: reviewData.comments,
-                rating: reviewData.rating,
+                rating:  reviewData.rating,
                 serviceId,
                 userId,
             }

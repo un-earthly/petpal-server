@@ -10,8 +10,8 @@ serviceRoutes.put('/:serviceId', ServiceController.updateService);
 serviceRoutes.get('/search', ServiceController.searchServices);
 serviceRoutes.get('/:serviceId', ServiceController.getServiceDetails);
 
-serviceRoutes.get('/:serviceId/reviews', ServiceController.getServiceReviews);
-serviceRoutes.post('/:serviceId/reviews/add', verifyToken, ServiceController.addServiceReview);
+serviceRoutes.get('/:serviceId/reviews', ServiceController.getServiceReview);
+serviceRoutes.post('/:serviceId/reviews', verifyToken, ServiceController.addServiceReview);
 serviceRoutes.delete('/:serviceId', verifyToken, ServiceController.deleteService);
 
 // serviceRoutes.post('/:serviceId/book', verifyToken, ServiceController.bookService);

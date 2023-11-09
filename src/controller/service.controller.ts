@@ -29,7 +29,7 @@ const ServiceController = {
         sendResponse(res, httpStatus.OK, service, 'Service details retrieved successfully');
     }),
 
-    getServiceReviews: catchAsync(async (req: Request, res: Response) => {
+    getServiceReview: catchAsync(async (req: Request, res: Response) => {
         const serviceId = parseInt(req.params.serviceId, 10);
         const reviews = await servicesService.getServiceReviews(serviceId);
         sendResponse(res, httpStatus.OK, reviews, 'Service reviews retrieved successfully');
