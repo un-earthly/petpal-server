@@ -6,17 +6,19 @@ import timeSlotsServices from "../services/timeSlots.service"
 import { generateTimeSlots } from "../utils/generateTimeSlots";
 const TimeSlotsController = {
     getTimeSlots: catchAsync(async (req: Request, res: Response) => {
-        const timeSlots = timeSlotsServices.getTimeSlots();
+        const timeSlots =await timeSlotsServices.getTimeSlots();
         sendResponse(res, httpStatus.OK, timeSlots, "SuccessFully retrived timeslots data")
     }),
     updateTimeSlots: catchAsync(async (req: Request, res: Response) => {
-        const timeSlots = timeSlotsServices.updateTimeSlots(Number(req.params.id));
+        const timeSlots =await timeSlotsServices.updateTimeSlots(Number(req.params.id));
         sendResponse(res, httpStatus.OK, timeSlots, "SuccessFully updated timeslot data");
     }),
 
     createTimeSlots: catchAsync(async (req: Request, res: Response) => {
-        const timeslots =await generateTimeSlots(new Date());
-        sendResponse(res, httpStatus.OK, timeslots, "successfully created timeslots")
+        const selectedDate = new Date(req.body.selectedDate);
+        const timeslots = await generateTimeSlots(selectedDate);
+        sendResponse(res, httpStatus.OK, timeslots, "Successfully created time slots");
+
     })
 }
 export default TimeSlotsController;

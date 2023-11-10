@@ -1,6 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import { ITimeSlot } from "../interfaces/timeSlots.interface";
-import { generateTimeSlots } from "../utils/generateTimeSlots";
 
 const prisma = new PrismaClient();
 

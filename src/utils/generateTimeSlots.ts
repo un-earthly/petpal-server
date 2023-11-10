@@ -35,7 +35,7 @@ export async function generateTimeSlots(day: Date) {
         }
     }
 
- prisma.timeSlot.createMany({
+    await prisma.timeSlot.createMany({
         data: timeSlots,
     });
     return timeSlots;

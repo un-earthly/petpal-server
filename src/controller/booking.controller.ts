@@ -7,7 +7,7 @@ import { bookingServices } from "../services/booking.service";
 
 export const BookingController = {
     getUserBookings: catchAsync(async (req: Request, res: Response) => {
-        const bookings = bookingServices.getUserBookings(req.user.id)
+        const bookings =await bookingServices.getUserBookings(req.user.id)
         if (!bookings) {
             throw new ApiError(httpStatus.NOT_FOUND, "Bookings not found")
         }
@@ -26,7 +26,7 @@ export const BookingController = {
 
     }),
     addBooking: catchAsync(async (req: Request, res: Response) => {
-        const newBooking = bookingServices.addBooking({ ...req.body, userId: req.user.id })
+        const newBooking = await bookingServices.addBooking({ ...req.body, userId: req.user.id })
         sendResponse(res, httpStatus.OK, newBooking, "Successfully Booked Service")
     }),
     updateBookingStatus: catchAsync(async (req: Request, res: Response) => {
@@ -35,7 +35,7 @@ export const BookingController = {
             throw new ApiError(httpStatus.BAD_REQUEST, "Invalid booking ID");
         }
 
-        const updatedBooking = bookingServices.updateBookingStatus(bookingId, req.body);
+        const updatedBooking = await bookingServices.updateBookingStatus(bookingId, req.body);
 
         if (!updatedBooking) {
             throw new ApiError(httpStatus.NOT_FOUND, "Booking not found");
