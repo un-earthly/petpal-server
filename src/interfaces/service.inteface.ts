@@ -1,7 +1,6 @@
 export interface ITimeSlot {
     startTime: string;
     endTime: string;
-    serviceId: number;
     isAvailable: boolean;
     date: Date;
     createdAt: Date;

@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import IBooking from "../interfaces/booking.interface";
+import IBooking, { IBookingStatusEnum } from "../interfaces/booking.interface";
 import ApiError from "../error/ApiError";
 import httpStatus from "http-status";
 
@@ -28,7 +28,7 @@ export const bookingServices = {
         })
         return newBooking
     },
-    getBookingDetils: (bookingId: number) => {
+    getBookingDetails: (bookingId: number) => {
         const bookingInfo = prisma.booking.findUnique({
             where: {
                 id: bookingId
@@ -41,5 +41,14 @@ export const bookingServices = {
             }
         });
         return bookingInfo
+    },
+    updateBookingStatus: (id: number, newStatus: IBookingStatusEnum) => {
+        const updatedBooking = prisma.booking.update({
+            where: { id },
+            data: {
+                status: newStatus
+            }
+        });
+        return updatedBooking
     }
 }

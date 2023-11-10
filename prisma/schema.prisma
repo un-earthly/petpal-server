@@ -54,10 +54,10 @@ model User {
   // bookedServicesIds      String[]
   // perticipatingEventsIds String[]
   // Pet          Pet[]
-  Article      Article[]
-  Review       Review[]
-  Payment      Payment[]
-  Booking      Booking[]
+  article      Article[]
+  review       Review[]
+  payment      Payment[]
+  booking      Booking[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -92,9 +92,9 @@ model TimeSlot {
   endTime     String
   isAvailable Boolean
   date        DateTime
+  booking     Booking[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  Booking     Booking[]
 
   @@map("timeslot")
 }
@@ -109,11 +109,11 @@ model Service {
   // petId        Int?
   // pet          Pet?       @relation(fields: [petId], references: [id])
   // TimeSlot     TimeSlot[]
-  Review      Review[]
-  Booking     Booking[]
+  review      Review[]
+  booking     Booking[]
+  payment     Payment[]
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
-  Payment     Payment[]
 
   @@map("service")
 }
@@ -130,7 +130,7 @@ model Payment {
   paymentDate   DateTime
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
-  Booking       Booking[]
+  booking       Booking[]
 
   @@map("payment")
 }

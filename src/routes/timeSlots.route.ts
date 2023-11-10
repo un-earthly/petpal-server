@@ -5,8 +5,6 @@ import { adminRoute } from "../middlewares/privateRoutes";
 const timeSlotRouter = express.Router();
 
 timeSlotRouter.get('/', verifyToken, TimeSlotsController.getTimeSlots);
-timeSlotRouter.post('/', adminRoute, verifyToken, TimeSlotsController.createTimeSlots);
-timeSlotRouter.put('/', adminRoute, verifyToken, TimeSlotsController.updateTimeSlots);
-timeSlotRouter.delete('/', adminRoute, verifyToken, TimeSlotsController.deleteTimeSlots);
-
+timeSlotRouter.post("/", TimeSlotsController.createTimeSlots)
+timeSlotRouter.put('/:id', adminRoute, verifyToken, TimeSlotsController.updateTimeSlots);
 export default timeSlotRouter;
